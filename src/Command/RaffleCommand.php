@@ -103,7 +103,7 @@ class RaffleCommand extends Command
      */
     protected function writeLogo(OutputInterface $output)
     {
-        $logo = file(__DIR__ . '/../../../logo.txt', FILE_IGNORE_NEW_LINES);
+        $logo = file(__DIR__ . '/../../logo.txt', FILE_IGNORE_NEW_LINES);
         $output->writeln($logo);
     }
 
