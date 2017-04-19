@@ -6,8 +6,10 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressIndicator;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
+use Abraham\TwitterOAuth\TwitterOAuth;
 
 class RaffleCommand extends Command
 {
@@ -19,6 +21,12 @@ class RaffleCommand extends Command
         $this
             ->setName('goan')
             ->setDescription('Pick a random name from a list')
+            ->addOption('meetup-id', null, InputOption::VALUE_REQUIRED)
+            ->addOption('joindin-id', null, InputOption::VALUE_REQUIRED)
+            ->addOption('twitter-consumer-key', null, InputOption::VALUE_OPTIONAL)
+            ->addOption('twitter-consumer-secret', null, InputOption::VALUE_OPTIONAL)
+            ->addOption('twitter-oauth-token', null, InputOption::VALUE_OPTIONAL)
+            ->addOption('twitter-oauth-secret', null, InputOption::VALUE_OPTIONAL)
         ;
     }
 
@@ -27,7 +35,7 @@ class RaffleCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $list = $this->getList();
+        $list = $this->getList($input);
         $this->writeLogo($output);
 
         $questionHelper = new QuestionHelper();
@@ -73,29 +81,87 @@ class RaffleCommand extends Command
     /**
      * Get the list of contenders
      *
-     * @todo Make this dynamic
+     * @param InputInterface $input
      *
      * @return array
      */
-    protected function getList()
+    protected function getList(InputInterface $input)
     {
-        $meetup = [
-            'Jachim Coudenys',
-            'Tom Van Herreweghe',
-            'Steven Vandeputte',
-            'Ike Devolder',
-            'Stijn Tilleman',
-            'Stijn Blomme',
-            'Vic Rau',
-        ];
-        $joindin = [
-            'Tom Van Herreweghe',
-            'Ike Devolder',
-            'Stijn Tilleman',
-            'Stijn Blomme',
-        ];
+        $client = new \GuzzleHttp\Client();
 
-        return array_merge($meetup, $joindin);
+        $comments = [];
+
+        $result = $client->get(
+            sprintf('http://api.joind.in/v2.1/events/%s/comments', $input->getOption('joindin-id'))
+        );
+        $eventComments = \GuzzleHttp\json_decode($result->getBody());
+        foreach ($eventComments->comments as $comment) {
+            $comments[] = $comment;
+        }
+
+        $result = $client->get(
+            sprintf('http://api.joind.in/v2.1/events/%s/talks', $input->getOption('joindin-id'))
+        );
+        $talks = \GuzzleHttp\json_decode($result->getBody());
+
+        foreach ($talks->talks as $talk) {
+            $result = $client->get($talk->comments_uri);
+            $talkComments = \GuzzleHttp\json_decode($result->getBody());
+
+            foreach ($talkComments->comments as $comment) {
+                $comments[] = $comment;
+            }
+        }
+
+        $commentNames = array_map(
+            function ($comment) {
+                return $comment->user_display_name;
+            },
+            $comments
+        );
+
+
+        $result = $client->get(
+            sprintf('https://api.meetup.com/php-wvl/events/%s/rsvps', $input->getOption('meetup-id'))
+        );
+        $rspvs = \GuzzleHttp\json_decode($result->getBody());
+
+        $rspvs = array_filter(
+            $rspvs,
+            function ($rsvp) {
+                return $rsvp->response === 'yes';
+            }
+        );
+
+        $rsvpNames = array_map(
+            function ($rsvp) {
+                return $rsvp->member->name;
+            },
+            $rspvs
+        );
+
+        $connection = new TwitterOAuth(
+            $input->getOption('twitter-consumer-key'),
+            $input->getOption('twitter-consumer-secret'),
+            $input->getOption('twitter-oauth-token'),
+            $input->getOption('twitter-oauth-secret')
+        );
+
+        $statuses = $connection->get('search/tweets', ['q' => 'phpwvl', 'count' => 50]);
+        $statuses = array_filter(
+            $statuses->statuses,
+            function ($status) {
+                return $status->user->screen_name !== 'phpwvl';
+            }
+        );
+        $statusNames = array_map(
+            function ($status) {
+                return '@' . $status->user->screen_name;
+            },
+            $statuses
+        );
+
+        return array_merge($rsvpNames, $commentNames, $commentNames, $statusNames);
     }
 
     /**
