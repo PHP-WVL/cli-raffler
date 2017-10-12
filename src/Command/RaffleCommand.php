@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Console\Question\ChoiceQuestion;
 use Abraham\TwitterOAuth\TwitterOAuth;
 
 class RaffleCommand extends Command
@@ -40,7 +41,8 @@ class RaffleCommand extends Command
 
         $questionHelper = new QuestionHelper();
         $itemQuestion = new Question('<question>Wuk gowe rafflen?</question>');
-        $confirmQuestion = new Question('<question>Moejt en?</question>');
+        $confirmQuestion = new ChoiceQuestion('<question>Moejt en?</question>', ['J' => 'joak', 'N' => 'nink']);
+        $confirmQuestion->setErrorMessage('<error>Tis joak of nink en niet anders</error>');
 
         // Start a loop for each item while we have people in the list
         while ($list && $item = $questionHelper->ask($input, $output, $itemQuestion)) {
