@@ -24,10 +24,6 @@ class RaffleCommand extends Command
             ->setDescription('Pick a random name from a list')
             ->addOption('meetup-id', null, InputOption::VALUE_REQUIRED)
             ->addOption('joindin-id', null, InputOption::VALUE_REQUIRED)
-            ->addOption('twitter-consumer-key', null, InputOption::VALUE_OPTIONAL)
-            ->addOption('twitter-consumer-secret', null, InputOption::VALUE_OPTIONAL)
-            ->addOption('twitter-oauth-token', null, InputOption::VALUE_OPTIONAL)
-            ->addOption('twitter-oauth-secret', null, InputOption::VALUE_OPTIONAL)
         ;
     }
 
