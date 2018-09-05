@@ -9,7 +9,8 @@ use Dotenv\Dotenv;
 try {
     (new Dotenv(__DIR__))->load();
 } catch (Exception $exception) {
-    // meh
+    echo "Could not load .env file, check if your configuration is correct";
+    exit();
 }
 
 $application = new Application();
