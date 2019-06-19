@@ -138,28 +138,7 @@ class RaffleCommand extends Command
             $rspvs
         );
 
-        $connection = new TwitterOAuth(
-            getenv('TWITTER_CONSUMER_KEY'),
-            getenv('TWITTER_CONSUMER_SECRET'),
-            getenv('TWITTER_OAUTH_TOKEN'),
-            getenv('TWITTER_OAUTH_SECRET')
-        );
-
-        $statuses = $connection->get('search/tweets', ['q' => 'phpwvl', 'count' => 50]);
-        $statuses = array_filter(
-            $statuses->statuses,
-            function ($status) {
-                return $status->user->screen_name !== 'phpwvl';
-            }
-        );
-        $statusNames = array_map(
-            function ($status) {
-                return '@' . $status->user->screen_name;
-            },
-            $statuses
-        );
-
-        return array_merge($rsvpNames, $commentNames, $commentNames, $statusNames);
+        return array_merge($rsvpNames, $commentNames, $commentNames);
     }
 
     /**
