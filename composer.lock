@@ -1,65 +1,11 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "38f2156568ac4fd9c8e72cdb779cc3f1",
+    "content-hash": "c08947a35d81313f1a829db0a149cbbb",
     "packages": [
-        {
-            "name": "abraham/twitteroauth",
-            "version": "0.7.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/abraham/twitteroauth.git",
-                "reference": "c6f9e692552dd037b2324ed0dfa28a4e60875acf"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/abraham/twitteroauth/zipball/c6f9e692552dd037b2324ed0dfa28a4e60875acf",
-                "reference": "c6f9e692552dd037b2324ed0dfa28a4e60875acf",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "php": "^5.6 || ^7.0"
-            },
-            "require-dev": {
-                "phpmd/phpmd": "~2.6",
-                "phpunit/phpunit": "~5.7",
-                "squizlabs/php_codesniffer": "~3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Abraham\\TwitterOAuth\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Abraham Williams",
-                    "email": "abraham@abrah.am",
-                    "homepage": "https://abrah.am",
-                    "role": "Developer"
-                }
-            ],
-            "description": "The most popular PHP library for use with the Twitter OAuth REST API.",
-            "homepage": "https://twitteroauth.com",
-            "keywords": [
-                "Twitter API",
-                "Twitter oAuth",
-                "api",
-                "oauth",
-                "rest",
-                "social",
-                "twitter"
-            ],
-            "time": "2017-06-30T22:02:01+00:00"
-        },
         {
             "name": "guzzlehttp/guzzle",
             "version": "6.3.3",
@@ -521,56 +467,6 @@
                 "shim"
             ],
             "time": "2018-08-06T14:22:27+00:00"
-        },
-        {
-            "name": "vlucas/phpdotenv",
-            "version": "v2.5.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/vlucas/phpdotenv.git",
-                "reference": "8abb4f9aa89ddea9d52112c65bbe8d0125e2fa8e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/8abb4f9aa89ddea9d52112c65bbe8d0125e2fa8e",
-                "reference": "8abb4f9aa89ddea9d52112c65bbe8d0125e2fa8e",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.9"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^4.8.35 || ^5.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.5-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Dotenv\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Vance Lucas",
-                    "email": "vance@vancelucas.com",
-                    "homepage": "http://www.vancelucas.com"
-                }
-            ],
-            "description": "Loads environment variables from `.env` to `getenv()`, `$_ENV` and `$_SERVER` automagically.",
-            "keywords": [
-                "dotenv",
-                "env",
-                "environment"
-            ],
-            "time": "2018-07-29T20:33:41+00:00"
         }
     ],
     "packages-dev": [],
