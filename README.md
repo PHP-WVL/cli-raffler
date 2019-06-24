@@ -2,14 +2,16 @@
 
 ## Setup
 
-Duplicate .env.example to .env and update with the correct values.
+Clone this repo and run composer install :)
 
-	cp .env.example .env && vim .env
+``` sh
+git clone https://github.com/php-wvl/cli-raffler.git
+composer install
+```
 
 ## Usage
 
-    php raffler.php goan
+``` sh
+php raffler.php goan --meetup-id <meetupid> --joindin-id <joindinid>
+```
 
-## Todo
-
-* Fetch the list of contenders from Meetup and Joindin
